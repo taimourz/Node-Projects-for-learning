@@ -5,12 +5,24 @@ import {forecast} from './utils/forecast.js'
 
 dotenv.config()
 
-geocode("Islamabad", (error, data) => {
-    console.log("Error: ", error)
-    console.log("data: ", data)
-})
+const location = process.argv[2]
+if(location){
+    geocode(location, (error, data) => {
+        if(error){
+            return console.log(error)
+        }
+    
+        forecast({lat: data.latitude, long: data.longitude}, (error, forecastData) => {
+            if(error){
+                return console.log(error)
+            }
+    
+            console.log(data.place_name)
+            console.log(forecastData)
+        })
+    })
+}else{
+    console.log("please provide a valid location")
+}
 
-forecast({lat: -75.7088, long: 44.1545}, (error, data) => {
-  console.log('Error', error)
-  console.log('Data', data)
-})
+
