@@ -7,17 +7,17 @@ dotenv.config()
 
 const location = process.argv[2]
 if(location){
-    geocode(location, (error, data) => {
+    geocode(location, (error, {latitude, longitude, place_name}) => {
         if(error){
             return console.log(error)
         }
     
-        forecast({lat: data.latitude, long: data.longitude}, (error, forecastData) => {
+        forecast({lat: latitude, long: longitude}, (error, forecastData) => {
             if(error){
                 return console.log(error)
             }
     
-            console.log(data.place_name)
+            console.log(place_name)
             console.log(forecastData)
         })
     })
